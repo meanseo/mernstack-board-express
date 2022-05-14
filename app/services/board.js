@@ -15,7 +15,7 @@ export default function BoardService() {
                 return 'ok'
             })
         },
-        boardList(req, res){
+        list(_req, res){
             Board.find()
             .exec((err, boards)=>{
               if(err) return res.status(400).send(err)
