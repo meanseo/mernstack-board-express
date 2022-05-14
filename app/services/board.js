@@ -2,7 +2,7 @@ import db from '../models/index.js'
 export default function BoardService() {
     const Board = db.Board
     return {
-        add(req, _res) {
+        add(req, res) {
             const {name,date, title, subject} = req
                 .body
                 console
@@ -11,8 +11,19 @@ export default function BoardService() {
             console.log(`name 값 : ${name}`)
             console.log(`contents 값 : ${subject}`)
             console.log(`date 값 : ${date}`)
-            new Board(req.body).save(() => {
-                return 'ok'
+            new Board(req.body).save(function (err) {
+                if (err) {
+                    res
+                        .status(500)
+                        .send({message: err});
+                    console.log('등록 실패')
+                    return;
+                } else {
+                    res
+                        .status(200)
+                        .json({ok: 'ok'})
+
+                }
             })
         },
         list(_req, res){
